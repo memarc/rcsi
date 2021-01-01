@@ -1,0 +1,116 @@
+.de Id
+.ds Rv \\$3
+.ds Dt \\$4
+..
+.Id $Id: rcsi.1,v 1.7 2003/04/19 22:55:19 cmb Exp $
+.ds r \s-1RCS\s0
+.if n .ds - \%--
+.if t .ds - \(em
+.TH RCSI 1 \*(Dt 
+.SH NAME
+rcsi \- a program to display information about RCS files
+.SH SYNOPSIS
+.B rcsi
+[
+.B \-h \-\-help \-v \-\-version \-c \-\-changed \-l \-\-locked \-u
+.B \-\-unlocked \-d \-a \-\-dot \-r \-\-rcsonly \-n \-\-not\-rcs
+.B \-\-color \-\-no\-color
+]
+[
+.B filenames
+]
+
+.SH DESCRIPTION
+.B rcsi
+allows the status of RCS files in a directory to be ascertained
+quickly. It displays a list of the files in the current directory
+together with their RCS status \- for example, locked or unlocked,
+revised or unchanged, details on any locks held, and so on. If
+filenames are passed in on the command line, these are used rather
+than reading all files in the current directory.
+
+.B \-h
+or
+.B \-\-help
+displays a useful summary of the options available.
+
+.B \-v
+or
+.B \-\-version
+displays the version number of the program.
+
+.B \-c
+or
+.B \-\-changed
+displays only those files which have changed since since the last
+check\-in.
+
+.B \-l
+or
+.B \-\-locked
+only includes locked RCS files in the output.
+
+.B \-u
+or
+.B \-\-unlocked
+only includes unlocked RCS files in the output.
+
+.B \-d
+or
+.B \-a
+or
+.B \-\-dot
+includes files beginning with a dot to be included in the output. This
+only has effect when there are no filenames passed in on the command
+line. 
+
+.B \-r
+or
+.B \-\-rcsonly
+limits the output to only those files maintained under RCS.
+
+.B \-n
+or
+.B \-\-not\-rcs
+limits the output to only those files
+.B not
+\-maintained under RCS.
+
+.B \-\-colo[u]r
+Use colour to highlight the files. This is the default \- terminal
+type is
+.B not
+checked!! For example, files maintained under RCS which are currently
+unlocked and unchanged are in green, while locked, unchanged files are
+in bold green. Modified files are in bold red.
+
+.B \-\-no\-colo[u]r
+Don't use colour to highlight the files.
+
+.SH BUGS
+
+I'm pretty sure there is a bug where
+.B rcsi
+reports a file as changed when it is not. This only occurs rarely, and
+I haven't been able to track it down \- I'm pretty sure it arises in
+some situations where there are '@' characters in the file.
+
+The implementation of
+.B rcsi
+is less than elegant \- large chunks of header files, type definitions
+and the like from the RCS sources are present in the
+.B rcsi.c
+source. But I'm not aware of anyone ever have made a library out of
+the RCS sources, so...
+
+.SH IDENTIFICATION
+Author: Colin Brough. (Colin.Brough@blueyonder.co.uk)
+.br
+Revision Number: \*(Rv; Release Date: \*(Dt.
+Copyright (C) 1994-2001 Colin Brough
+
+This manual page covers rcsi version 0.4.
+
+.SH "SEE ALSO"
+rcs(1), ci(1), co(1), rcsdiff(1), rlog(1), ident(1), merge(1),
+rcsmerge(1) 

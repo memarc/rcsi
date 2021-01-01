@@ -1,0 +1,486 @@
+head	1.7;
+access;
+symbols
+	rcsi_0_3:1.4
+	rcsi_0_2:1.3
+	rcsi_0_1:1.2;
+locks; strict;
+comment	@# @;
+
+
+1.7
+date	2003.04.19.22.55.19;	author cmb;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2001.06.02.09.52.30;	author cmb;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	97.12.05.09.05.50;	author cmb;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	94.11.16.17.20.53;	author cmb;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	94.11.09.16.53.25;	author cmb;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	94.11.02.13.58.50;	author cmb;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	94.11.02.13.41.59;	author cmb;	state Exp;
+branches;
+next	;
+
+
+desc
+@Manual page for rcsi - adopted from the 'template.1' page I developed
+ages ago.
+@
+
+
+1.7
+log
+@Updated e-mail address
+@
+text
+@.de Id
+.ds Rv \\$3
+.ds Dt \\$4
+..
+.Id $Id: rcsi.1,v 1.6 2001/06/02 09:52:30 cmb Exp cmb $
+.ds r \s-1RCS\s0
+.if n .ds - \%--
+.if t .ds - \(em
+.TH RCSI 1 \*(Dt 
+.SH NAME
+rcsi \- a program to display information about RCS files
+.SH SYNOPSIS
+.B rcsi
+[
+.B \-h \-\-help \-v \-\-version \-c \-\-changed \-l \-\-locked \-u
+.B \-\-unlocked \-d \-a \-\-dot \-r \-\-rcsonly \-n \-\-not\-rcs
+.B \-\-color \-\-no\-color
+]
+[
+.B filenames
+]
+
+.SH DESCRIPTION
+.B rcsi
+allows the status of RCS files in a directory to be ascertained
+quickly. It displays a list of the files in the current directory
+together with their RCS status \- for example, locked or unlocked,
+revised or unchanged, details on any locks held, and so on. If
+filenames are passed in on the command line, these are used rather
+than reading all files in the current directory.
+
+.B \-h
+or
+.B \-\-help
+displays a useful summary of the options available.
+
+.B \-v
+or
+.B \-\-version
+displays the version number of the program.
+
+.B \-c
+or
+.B \-\-changed
+displays only those files which have changed since since the last
+check\-in.
+
+.B \-l
+or
+.B \-\-locked
+only includes locked RCS files in the output.
+
+.B \-u
+or
+.B \-\-unlocked
+only includes unlocked RCS files in the output.
+
+.B \-d
+or
+.B \-a
+or
+.B \-\-dot
+includes files beginning with a dot to be included in the output. This
+only has effect when there are no filenames passed in on the command
+line. 
+
+.B \-r
+or
+.B \-\-rcsonly
+limits the output to only those files maintained under RCS.
+
+.B \-n
+or
+.B \-\-not\-rcs
+limits the output to only those files
+.B not
+\-maintained under RCS.
+
+.B \-\-colo[u]r
+Use colour to highlight the files. This is the default \- terminal
+type is
+.B not
+checked!! For example, files maintained under RCS which are currently
+unlocked and unchanged are in green, while locked, unchanged files are
+in bold green. Modified files are in bold red.
+
+.B \-\-no\-colo[u]r
+Don't use colour to highlight the files.
+
+.SH BUGS
+
+I'm pretty sure there is a bug where
+.B rcsi
+reports a file as changed when it is not. This only occurs rarely, and
+I haven't been able to track it down \- I'm pretty sure it arises in
+some situations where there are '@@' characters in the file.
+
+The implementation of
+.B rcsi
+is less than elegant \- large chunks of header files, type definitions
+and the like from the RCS sources are present in the
+.B rcsi.c
+source. But I'm not aware of anyone ever have made a library out of
+the RCS sources, so...
+
+.SH IDENTIFICATION
+Author: Colin Brough. (Colin.Brough@@blueyonder.co.uk)
+.br
+Revision Number: \*(Rv; Release Date: \*(Dt.
+Copyright (C) 1994-2001 Colin Brough
+
+This manual page covers rcsi version 0.4.
+
+.SH "SEE ALSO"
+rcs(1), ci(1), co(1), rcsdiff(1), rlog(1), ident(1), merge(1),
+rcsmerge(1) 
+@
+
+
+1.6
+log
+@Updated.
+@
+text
+@d5 1
+a5 1
+.Id $Id: rcsi.1,v 1.5 1997/12/05 09:05:50 cmb Exp cmb $
+d107 1
+a107 1
+Author: Colin Brough. (Colin.Brough@@btinternet.com)
+@
+
+
+1.5
+log
+@Updated to reflect use of colour and the add '-n' / '--not-rcs'
+option.
+@
+text
+@d5 1
+a5 1
+.Id $Id: rcsi.1,v 1.4 1997/12/04 17:20:53 cmb Exp cmb $
+d15 3
+a17 1
+.B \-h \-v \-l \-u \-d \-a \-r
+d42 6
+d79 26
+a104 4
+On terminals that support it, colour is used to help visually pick out
+files of different status \- for example, files maintained under RCS
+which are currently unlocked and unchanged are in green, while locked,
+unchanged files are in bold green. Modified files are in bold red.
+d107 1
+a107 1
+Author: Colin M. Brough.
+d110 1
+a110 1
+Copyright (C) 1994, 1995, 1996, 1997 Colin Brough
+@
+
+
+1.4
+log
+@Updated version number
+@
+text
+@d5 1
+a5 1
+.Id $Id: rcsi.1,v 1.3 1994/11/09 16:53:25 cmb Exp cmb $
+d64 12
+d80 1
+a80 1
+Copyright (C) 1994 Colin Brough
+d82 1
+a82 1
+This manual page covers rcsi version 0.3.
+@
+
+
+1.3
+log
+@Updated to version 0.2
+@
+text
+@d5 1
+a5 1
+.Id $Id: rcsi.1,v 1.2 1994/11/02 13:58:50 cmb Exp cmb $
+d70 1
+a70 1
+This manual page covers rcsi version 0.2.
+@
+
+
+1.2
+log
+@First draft manual page for rcsi
+@
+text
+@d5 1
+a5 1
+.Id $Id: rcsi.1,v 1.1 1994/11/02 13:41:59 cmb Exp cmb $
+d17 3
+d26 3
+a28 1
+revised or unchanged, details on any locks held, and so on.
+d55 3
+a57 1
+includes files beginning with a dot to be included in the output. 
+d69 2
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d5 1
+a5 1
+.Id $Id: template.1,v 1.5 1992/01/30 22:42:26 cmb Exp $
+d9 1
+a9 1
+.TH TEMPLATE 1 \*(Dt EPCC
+d11 1
+a11 1
+template \- example template for an on\-line manual page
+d13 1
+a13 1
+.B template
+d15 1
+a15 1
+.B optional arguments
+a16 1
+required arguments \&.\|.\|.
+d19 37
+a55 188
+.B template
+provides an introduction to writing Unix manual pages and a simple
+template on which to base such manual pages.  The material is divided up
+into three main sections \- an introduction to UNIX MAN PAGES, a brief
+description of how to go about WRITING A MAN PAGE, and finally a brief
+list of some COMMON TROFF MACROS useful in writing manual pages.
+
+.SH UNIX MAN PAGES
+The Unix manual pages are provided on\-line to ensure that essential
+reference information is always at hand.  Entries are divided into eight
+categories:
+
+.PP
+.RS
+1 \- User Commands
+.br
+2 \- System Calls
+.br
+3 \- Library Functions
+.br
+4 \- Devices and Network Interfaces
+.br
+5 \- File Formats
+.br
+6 \- Games and Demos
+.br
+7 \- Environments, Tables and Troff Macros
+.br
+8 \- Maintenance Commands
+.RE
+
+.PP
+When you see a Unix command referred to something like ls(1), the number
+in brackets indicates which manual section it comes from.  For example,
+there is an introductory page for each section of the manual.  To get
+the introduction for section 2, use the command "man 2 intro".  The man
+command checks the sections in numerical order, so "man intro" will pick
+up the introduction to section 1. 
+
+.PP
+Unix manual pages are normally found in the /usr/man and
+/usr/local/share/man directories.  The MANPATH environment variable is
+used to tell man(1) where to look for manual pages.  Within these
+directories, the different sections are stored in different
+sub\-directories. The "man1" sub\-directory contains entries in section
+1 of the manual, "man2" those in section 2, and so on.
+
+.PP
+When you type "man ls", for instance, the following steps are taken:
+
+.TP
+\- 
+while no manual page has been found, do:
+.RS
+.TP
+\-
+take the next directory in the MANPATH environment variable.
+.TP
+\- 
+look in the sub\-directories man1, man2, man3, \&.\|.\|., man8 in
+order. 
+.TP
+\- 
+if a file "ls.x" (where x is the section number) exists, then this
+contains the manual page.  Run this through troff(1) and display on the
+screen. 
+.TP
+\- 
+if no file exists, search the next directory.
+.TP
+\- 
+if, after searching all directories, no manual page is found, display
+the message "No manual entry for \&.\|.\|.".
+
+.SH WRITING A MAN PAGE
+Probably the simplest way to create a manual page is to start with a
+copy of this template file. ("/home/epcc/man/template.1")  For example,
+to create a manual page for the (imaginary) new RCS command "rcsmixup"
+you might do the following:
+
+.PP
+.RS
+cp /home/epcc/man/template.1  rcsmixup.1
+.br
+ue rcsmixup.1
+.RE
+
+.PP
+Then, in the editor, make the following changes:
+.TP
+\- 
+change line 5 (begins .Id) to be ".Id $\&Id$"
+.TP
+\- 
+change "template" in line 9 (begins .TH) to the name of the command
+or function (should be in block capitals).  The number is the section of
+the manual.
+.TP
+\- 
+create the section headings you require (section headings start with
+".SH xxxxx", with the section name in block capitals).  You should
+include NAME, SYNOPSIS, DESCRIPTION, IDENTIFICATION and SEE ALSO
+sections in most manual pages.  Further sections may be added as
+required (e.g. a BUGS section is often included).
+.TP
+\- 
+finally, fill out each section.
+
+.PP
+There are some conventions when writing manual pages that should
+generally be adopted:
+.TP
+\-
+The NAME section contains one line of text; the name of the command, a
+dash, and a one\-line description of the command.
+.TP
+\-
+The SYNOPSIS section should detail the possible arguments.  Optional
+arguments should be enclosed in square brackets.  Three dots (\&.\|.\|.)
+indicates the possibility of multiple similar arguments, like
+filenames. 
+.TP
+\-
+The DESCRIPTION section will contain the main description of the use of
+the command or function.
+.TP
+\-
+The IDENTIFICATION section should contain author and version information
+(the template generates the version information from the RCS revision
+number), and may also be used for copyright notices etc.
+.TP
+\-
+The SEE ALSO section should point to other sources of relevant
+information, including other manual pages and off\-line documentation.
+
+.PP
+Testing a manual page in the "/usr/man" or "/usr/local/share/man"
+directories is not really possible.  To test a manual page, create a
+directory called "man", with subdirectories "man1", "man2", "man3",
+\&.\|.\|., "man8".  In the relevant directory create a symbolic link to
+the manual page to be tested.  Finally, move into the "man" directory,
+and "man \-M .  xxxx" will run your manual page through the
+appropriate processing. 
+
+.PP
+To install your man page on the EPCC cluster you must be using one of
+the "package" accounts, which belong to group "local" rather than group
+"epcc".  Only some of the project accounts belong to group "local" \- at
+the time of writing the following accounts that might be used by people
+who are not Billy were in group "local": ape, casim, clinda, cstools,
+dgl, f2c, framemaker, maple, mplan, nag, nevis, nip, oracle, p2c, rcs,
+sfortran, simula, spmi, strand and tex.  If you have access to one of
+these accounts, installing the manual page is simply a matter of copying
+it into "/export/local/share/man/manX", where X is the section number. 
+The man page will then be automatically installed overnight (hence the
+phrase "will propagate tonight").  Note that this information is
+specific to the EPCC cluster, and more general manual page installation
+procedures should be followed for code released outside EPCC. 
+
+.SH COMMON TROFF MACROS
+The Unix tool troff(1) is used to process the manual page, and the .SH
+and other dot\-preceded things at the start of lines are troff commands. 
+(Strictly speaking they are troff macros, in much the same way that
+LaTeX commands are really just a complicated set of TeX macros.  The
+manual page macros are available with the "\-man" argument to troff.) A
+number of the more useful commands are briefly described here \- more
+detail in the troff(1) manuals.  (Full set in Billy's Sun manuals.)
+
+.PP 
+.TP
+\- 
+\&.br causes a new line to be started.
+.TP
+\-
+\&.PP causes a new paragraph to be started.
+.TP
+\- 
+\&.SH causes a new section to be started.
+.TP
+\- 
+\&.B causes the text on the rest of the line to be printed in bold. 
+.TP
+\- 
+\&.I causes the text on the rest of the line to be printed in italic. 
+.TP
+\- 
+dashes must be escaped using a back\-slash.
+
+d61 1
+d64 2
+a65 1
+man(1), troff(1), whatis(1), catman(8)
+@
