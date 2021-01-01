@@ -2,7 +2,7 @@
 .ds Rv \\$3
 .ds Dt \\$4
 ..
-.Id $Id: rcsi.1,v 1.7 2003/04/19 22:55:19 cmb Exp $
+.Id $Id: rcsi.1,v 1.8 2012/12/17 12:21:30 cmb Exp $
 .ds r \s-1RCS\s0
 .if n .ds - \%--
 .if t .ds - \(em
@@ -76,6 +76,13 @@ limits the output to only those files
 .B not
 \-maintained under RCS.
 
+.B \-f
+or
+.B \-\-filenames
+output does not have any formatting, listing only the selected
+filenames, for instance so that they may be used as arguments to some
+other program.
+
 .B \-\-colo[u]r
 Use colour to highlight the files. This is the default \- terminal
 type is
@@ -107,9 +114,9 @@ the RCS sources, so...
 Author: Colin Brough. (Colin.Brough@blueyonder.co.uk)
 .br
 Revision Number: \*(Rv; Release Date: \*(Dt.
-Copyright (C) 1994-2001 Colin Brough
+Copyright (C) 1994-2012 Colin Brough
 
-This manual page covers rcsi version 0.4.
+This manual page covers rcsi version 0.6.
 
 .SH "SEE ALSO"
 rcs(1), ci(1), co(1), rcsdiff(1), rlog(1), ident(1), merge(1),

@@ -1,9 +1,9 @@
-This directory contains complete sources for rcsi version 0.5
+This directory contains complete sources for rcsi version 0.6
 ----------------------------------------------------------------------
 
 	rcsi is a program to give information about RCS files.
 
-Copyright Colin Brough, 1994-2001
+Copyright Colin Brough, 1994-2012
 
 rcsi is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with rcsi; see the file COPYING.  If not, write to the Free
 Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 
-$Id: README,v 1.10 2003/04/19 22:58:38 cmb Exp $
+$Id: README,v 1.11 2012/12/17 12:15:43 cmb Exp $
 
 ----------------------------------------------------------------------
 

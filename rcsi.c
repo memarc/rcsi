@@ -22,9 +22,29 @@
  *	send them to: 'Colin.Brough@blueyonder.co.uk'
  *
  *----------------------------------------------------------------------
- * $Id: rcsi.c,v 1.28 2003/04/19 22:54:57 cmb Exp $
+ * $Id: rcsi.c,v 1.32 2012/12/17 19:27:03 cmb Exp $
  *
  * $Log: rcsi.c,v $
+ * Revision 1.32  2012/12/17 19:27:03  cmb
+ * Fixed bug that generated extra terminal reset codes even when
+ * g_filenames was true.
+ *
+ * Revision 1.31  2012/12/17 12:13:26  cmb
+ * Updated version number to reflect new command line option and related
+ * functionality. Also noting here the removal again of the dirname
+ * function - it was producing compiler errors and I wasn't using it at
+ * this point - can always get it out of the revision history again if I
+ * need it!
+ *
+ * Revision 1.30  2012/12/17 12:09:56  cmb
+ * Added the '-f' option which allows the code to only output the
+ * filenames (no formatting), so you can for instance use this output as
+ * argument for another comman...
+ *
+ * Revision 1.29  2012/12/17 11:54:31  cmb
+ * Added dirname function - its not used, and I can't remember what I was
+ * working on when I added it!!
+ *
  * Revision 1.28  2003/04/19 22:54:57  cmb
  * Update e-mail address
  *
@@ -363,6 +383,7 @@ int	  tree_longest = 0;	/* Longest filename in the tree		*/
 				 */
 int	g_changed = false,	/* true => display only changed RCS files */
 	g_rcsonly = false,	/* true => display only RCS related files */
+	g_filenames = false,	/* true => display output as just filenames, no formatting */
 	g_not_rcs = false,	/* true => display only non-RCS related files*/
 	g_locked = false,	/* true => display only locked RCS files */
 	g_unlocked = false,	/* true => display only unlocked RCS files */
@@ -382,7 +403,7 @@ char	g_spaces[FILENAME_MAX];	/* Array of spaces... for printing	*/
 				 * version number, last bit is generated
 				 * by RCS.
 				 */
-char	g_version[] = "0.5  ($Id: rcsi.c,v 1.28 2003/04/19 22:54:57 cmb Exp $)";
+char	g_version[] = "0.6  ($Id: rcsi.c,v 1.32 2012/12/17 19:27:03 cmb Exp $)";
 
 /*----------------------------------------------------------------------
  *
@@ -424,16 +445,19 @@ void	magenta(void);
 void	cyan(void);
 void	normal(void);
 
-/*----------------------------------------------------------------------*/
+/*----------------------------------------------------------------------
+ * normal	Resets foreground and background, but only if we are 
+ *		outputting in colour and not just generating filenames
+ *----------------------------------------------------------------------*/
 
 void normal(void)
 {
-	if (! g_colour) return;
-	fputc(27,  stdout);	/* This stuff resets foreground and	*/
-	fputc('[', stdout);	/* background to black and white	*/
-	fputc('0', stdout);	/* respectively - for use in xterms	*/
-	fputc('0', stdout);	/* and on the console really....	*/
-	fputc('m', stdout);
+    if ((! g_colour) || (g_filenames)) return;
+    fputc(27,  stdout);		/* This stuff resets foreground and	*/
+    fputc('[', stdout);		/* background to black and white	*/
+    fputc('0', stdout);		/* respectively - for use in xterms	*/
+    fputc('0', stdout);		/* and on the console really....	*/
+    fputc('m', stdout);
 }
 
 /*----------------------------------------------------------------------*/
@@ -831,26 +855,47 @@ void p_node(Tnode *t)
 	case RCSI_dir:
 		if ( ! ( g_changed || g_rcsonly || g_locked || g_unlocked ))
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
 			bold_blue();
 			printf("( Directory )\n");
+		    }
 		}
 		break;
 
 	case RCSI_nonRCS:
 		if ( ! ( g_changed || g_rcsonly || g_locked || g_unlocked ))
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
 			printf("( Not under RCS )\n");
+		    }
 		}
 		break;
 
         case RCSI_lnk:
                 if ( ! ( g_changed || g_rcsonly || g_locked || g_unlocked ))
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
                         magenta();
 			printf("( Symbolic link )\n");
+		    }
 		}
 		break;
                 
@@ -880,18 +925,25 @@ void p_node(Tnode *t)
 		/*--------------------------------------------------------
 		 * Now actually print out the relevant information
 		 *--------------------------------------------------------*/
-		p_name(t);
-		if (len == 0)
+		if (g_filenames)
 		{
-			green();
-			printf("( in,  unchanged, unlocked )\n");
+		    printf("%s\n", t->name);
 		}
 		else
 		{
+		    p_name(t);
+		    if (len == 0)
+		    {
+			green();
+			printf("( in,  unchanged, unlocked )\n");
+		    }
+		    else
+		    {
 			bold_green();
 			printf("( in,  unchanged, %s )\n", Locks);
 			free(Locks);
 			Locks = nil;
+		    }
 		}
 		break;
 
@@ -922,6 +974,12 @@ void p_node(Tnode *t)
 		 *--------------------------------------------------------*/
 		if (result == 1)
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
 			if (len == 0)
 			{
@@ -935,9 +993,16 @@ void p_node(Tnode *t)
 				free(Locks);
 				Locks = nil;
 			}
+		    }
 		}
 		else
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
 			if (len == 0)
 			{
@@ -951,31 +1016,53 @@ void p_node(Tnode *t)
 				free(Locks);
 				Locks = nil;
 			}
+		    }
 		}
 		break;
 
 	case RCSI_other:
 		if ( ! ( g_changed || g_rcsonly || g_locked || g_unlocked ))
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
 			printf("( Link/socket/etc. )\n");
+		    }
 		}
 		break;
 
 	case RCSI_fail:
 		if ( ! ( g_changed || g_rcsonly || g_locked || g_unlocked ))
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
 			cyan();
 			printf("( ** non-existent ** )\n");
+		    }
 		}
 		break;
 	default:
 		if ( ! ( g_changed || g_rcsonly || g_locked || g_unlocked ))
 		{
+		    if (g_filenames)
+		    {
+			printf("%s\n", t->name);
+		    }
+		    else
+		    {
 			p_name(t);
 			cyan();
 			printf("( ** unknown ** )\n");
+		    }
 		}
 		break;
 	}
@@ -2122,6 +2209,11 @@ int main(int argc, char *argv[])
 			normal();
 			exit(0);
 		}
+		else if ((strcmp(argv[current_arg], "-f") == 0) ||
+		    (strcmp(argv[current_arg], "--filenames") == 0))
+		{
+			g_filenames = true;
+		}
 		else if ((strcmp(argv[current_arg], "-c") == 0) ||
 		    (strcmp(argv[current_arg], "--changed") == 0))
 		{
@@ -2222,6 +2314,7 @@ int main(int argc, char *argv[])
 			       "files\n"
 			       "-n --not-rcs   Include only non-RCS related "
 			       "files\n"
+			       "-f --filenames Display only the filenames, no formatting\n"
                                "--colo[u]r     Use colour (default)\n"
                                "--no-colo[u]r  Don't use colour\n");
 			normal();
